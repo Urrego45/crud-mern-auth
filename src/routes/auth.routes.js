@@ -1,15 +1,15 @@
 import express from "express"
-import { login, register } from '../controllers/auth.contrroller.js'
-
-// console.log(login);
-// console.log(register);
+import { login, register, logout, profile } from '../controllers/auth.contrroller.js'
+import { authRequired } from '../middlewares/validateToken.js'
 
 const router = express.Router()
 
 router.post('/register', register)
-// console.log(router.route);
+
 router.post('/login', login)
 
-// console.log(router);
+router.post('/logout', logout)
+
+router.get('/profile', authRequired, profile)
 
 export default router
