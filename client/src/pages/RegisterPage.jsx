@@ -28,6 +28,15 @@ export default function LoginPage() {
           </div>
         ))}
       <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
+          placeholder="Write your name"
+          {...register("username")}
+        />
+        {errors.username?.message && (
+          <p className="text-red-500">{errors.username?.message}</p>
+        )}
 
         <input type="email"
           {... register("email", { required: true })}
