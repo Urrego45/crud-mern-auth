@@ -1,0 +1,46 @@
+version: "3.8"
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:6
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    ports:
+      - 27010:27017
+    volumes:
+      - db:/data/db
+  app:
+    container_name: app
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    build: .
+    ports:
+      - 4000:4000
+    environment:
+      - DB_HOST=mongodb
+      - DB_USER=admin
+      - DB_PASSWORD=password
+      - DB_NAME=merndb
+      - DB_PORT=27017
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/app
+  client:
+    container_name: client
+    depends_on:
+      - app
+    restart: unless-stopped
+    build: client
+    ports:
+      - 5173:5173
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./client:/app
+
+volumes:
+  db:
