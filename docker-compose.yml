@@ -4,39 +4,42 @@ services:
     container_name: mongodb
     image: mongo:6
     restart: unless-stopped
+    env_file: ./.env
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
     ports:
-      - 27010:27017
+      - $MONGO_PORT_1:$MONGO_PORT_2
     volumes:
       - db:/data/db
   app:
     container_name: app
+    env_file: ./.env
     depends_on:
       - mongodb
     restart: unless-stopped
     build: .
     ports:
-      - 4000:4000
+      - $APP_PORT_1:$APP_PORT_2
     environment:
       - DB_HOST=mongodb
-      - DB_USER=admin
-      - DB_PASSWORD=password
-      - DB_NAME=merndb
-      - DB_PORT=27017
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_NAME
+      - DB_PORT=$DB_PORT
     stdin_open: true
     tty: true
     volumes:
       - ./:/app
   client:
     container_name: client
+    env_file: ./.env
     depends_on:
       - app
     restart: unless-stopped
     build: client
     ports:
-      - 5173:5173
+      - $CLIENT_PORT_1:$CLIENT_PORT_2
     stdin_open: true
     tty: true
     volumes:

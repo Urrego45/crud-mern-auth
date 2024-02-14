@@ -6,11 +6,13 @@ import cors from 'cors'
 import authRoutes  from './routes/auth.routes.js'
 import tasksRoutes  from './routes/task.routes.js'
 
+import { config } from 'dotenv';
+config()
 
 const app = express()
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.ROUTE_CORS,
     credentials: true
 }))
 app.use(morgan('dev'))

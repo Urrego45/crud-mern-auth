@@ -2,10 +2,10 @@ import mongoose from 'mongoose'
 
 export const connectDB = async () => {
     try {
-        await mongoose.connect("mongodb://mongodb:27017/merndb", {
-            authSource: "admin",
-            user: "admin",
-            pass: "password",
+        await mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`, {
+            authSource: `${process.env.MONGO_USERNAME}`,
+            user: `${process.env.MONGO_USERNAME}`,
+            pass: `${process.env.MONGO_PASSWORD}`,
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });

@@ -1,1 +1,1 @@
-export const TOKEN_SECRET = 'secret_key'
+export const TOKEN_SECRET = process.env.TOKEN_SECRET || 'secret_key'
