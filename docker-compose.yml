@@ -1,32 +1,12 @@
 version: "3.8"
 services:
-  mongodb:
-    container_name: mongodb
-    image: mongo:6
-    restart: unless-stopped
-    env_file: ./.env
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
-    ports:
-      - $MONGO_PORT_1:$MONGO_PORT_2
-    volumes:
-      - db:/data/db
   app:
     container_name: app
     env_file: ./.env
-    depends_on:
-      - mongodb
     restart: unless-stopped
     build: .
     ports:
       - $APP_PORT_1:$APP_PORT_2
-    environment:
-      - DB_HOST=mongodb
-      - DB_USER=$DB_USER
-      - DB_PASSWORD=$DB_PASSWORD
-      - DB_NAME=$DB_NAME
-      - DB_PORT=$DB_PORT
     stdin_open: true
     tty: true
     volumes:
@@ -44,6 +24,3 @@ services:
     tty: true
     volumes:
       - ./client:/app
-
-volumes:
-  db:
